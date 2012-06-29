@@ -1,0 +1,2 @@
+An experiment with terminating Qt worker threads via a mutex locking mechanism.
+
