@@ -12,20 +12,25 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     MainWindow window;
 
+    // Display the window and start the worker threads
     window.show();
     window.start();
 
+    // Create a timer to call lock() on thread A
     QTimer timerA;
     timerA.setInterval(5000);
     timerA.setSingleShot(true);
 
+    // Create a timer to call lock() on thread B
     QTimer timerB;
-    timerB.setInterval(5000);
+    timerB.setInterval(3000);
     timerB.setSingleShot(true);
 
+    // Connect the timers to the main window
     QObject::connect(&timerA, SIGNAL(timeout()), &window, SLOT(lockA()));
     QObject::connect(&timerB, SIGNAL(timeout()), &window, SLOT(lockB()));
 
+    // Start the timers
     timerA.start();
     timerB.start();
 

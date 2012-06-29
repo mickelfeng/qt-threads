@@ -34,12 +34,16 @@ bool Thread::trylock()
 void Thread::run()
 {
   std::cout << "[" << this << "] entered run()" << std::endl;
+
+  // The idea here is that if another thread locks this thread, that this loop
+  // should terminate, thus terminating the execution of this thread.
   while(trylock())
   {
-    std::cout << m_output << std::endl;
+    std::cout << "[" << this << "] " << m_output << std::endl;
     QThread::sleep(1);
     unlock();
   }
+
   std::cout << "[" << this << "] exited run()" << std::endl;
 }
 
