@@ -1,5 +1,7 @@
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 
+set(TARGET "lock-to-stop")
+
 find_package(Qt4 REQUIRED)
 
 set(SRC
@@ -19,7 +21,7 @@ include(${QT_USE_FILE})
 
 add_definitions(${QT_DEFINITIONS})
 
-add_executable(qt-threads ${SRC} ${HDR_MOC})
+add_executable(${TARGET} ${SRC} ${HDR_MOC})
 
-target_link_libraries(qt-threads ${QT_LIBRARIES})
+target_link_libraries(${TARGET} ${QT_LIBRARIES})
 
