@@ -2,7 +2,7 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 
 find_package(Qt4 REQUIRED)
 
-set(TARGET "producer-consumer")
+set(TARGET "supplier-consumer")
 
 set(SRC
   Application.cpp
