@@ -1,2 +1,2 @@
-An experiment with terminating Qt worker threads via a mutex locking mechanism.
-
+These are some experiments or toy projects I have written in order to better
+learn about threads in Qt and C++11.
