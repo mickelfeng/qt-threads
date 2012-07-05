@@ -1,9 +1,10 @@
 #include "Thread.h"
 #include <iostream>
 
-Thread::Thread(ThreadRunner* runner, QObject* parent)
+Thread::Thread(ThreadRunner* runner, int sleep, QObject* parent)
 : QThread(parent)
 , m_runner(runner)
+, m_sleep(1000)
 {
 }
 
@@ -33,7 +34,7 @@ void Thread::run()
   while(trylock())
   {
     m_runner->run();
-    sleep(1);
+    msleep(m_sleep);
     unlock();
   }
 

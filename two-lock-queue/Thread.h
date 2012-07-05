@@ -26,9 +26,10 @@ class Thread : public QThread
      * Creates a Thread object, and initializes the output string.
      *
      * @param output - the string that will be output when the thread is run
+     * @param sleep  - the period of sleep between updates in the run function
      * @param parent - the parent object of this thread
      */
-    Thread(ThreadRunner* runner, QObject* parent = 0);
+    Thread(ThreadRunner* runner, int sleep = 1000, QObject* parent = 0);
 
     /**
      * Destroys this thread.
@@ -63,6 +64,7 @@ class Thread : public QThread
   private:
     QMutex m_lock;
     std::unique_ptr<ThreadRunner> m_runner;
+    int m_sleep;
 };
 
 #endif // THREAD_H
