@@ -9,8 +9,10 @@ Application::Application(int argc, char** argv)
   ThreadRunner* consumer = Consumer::getInstance();
   ThreadRunner* producerA = new Producer("tic");
   ThreadRunner* producerB = new Producer("toc");
-  m_threads.push_back(std::move(std::unique_ptr<Thread>(new Thread(producerA))));
-  m_threads.push_back(std::move(std::unique_ptr<Thread>(new Thread(producerB))));
+  ThreadRunner* producerC = new Producer("toe");
+  m_threads.push_back(std::move(std::unique_ptr<Thread>(new Thread(producerA, 500))));
+  m_threads.push_back(std::move(std::unique_ptr<Thread>(new Thread(producerB, 500))));
+  m_threads.push_back(std::move(std::unique_ptr<Thread>(new Thread(producerC, 500))));
 
   // This is a little sneaky. Putting the consumer last means that it will be the last thread to be
   // shutdown when the application quits. This will allow it to flush the contents of the queue,

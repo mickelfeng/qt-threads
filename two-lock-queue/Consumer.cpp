@@ -19,16 +19,7 @@ Consumer* Consumer::getInstance()
 
 void Consumer::run()
 {
-  std::cout << "POP ";
-  std::unique_ptr<std::string> data = std::move(m_queue.pop());
-  if (data)
-  {
-    std::cout << *data << std::endl;
-  }
-  else
-  {
-    std::cout << "null" << std::endl;
-  }
+  flush();
 }
 
 void Consumer::flush()

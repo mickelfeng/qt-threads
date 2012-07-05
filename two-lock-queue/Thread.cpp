@@ -4,7 +4,7 @@
 Thread::Thread(ThreadRunner* runner, int sleep, QObject* parent)
 : QThread(parent)
 , m_runner(runner)
-, m_sleep(1000)
+, m_sleep(sleep)
 {
 }
 
