@@ -8,7 +8,7 @@ Consumer::Consumer()
 void Consumer::log(const char* str)
 {
   std::unique_ptr<std::string> data(new std::string(str));
-  getInstance()->m_queue.push(data);
+  getInstance()->m_queue.push(std::move(data));
 }
 
 Consumer* Consumer::getInstance()
