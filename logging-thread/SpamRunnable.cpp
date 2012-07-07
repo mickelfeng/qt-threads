@@ -11,7 +11,6 @@ namespace
 
 SpamRunnable::SpamRunnable() 
   : QRunnable()
-  , m_msg(message[rand() % NUM_MESSAGES])
 {
 }
 
@@ -19,8 +18,9 @@ void SpamRunnable::run()
 {
   while (m_mutex.tryLock())
   {
-//    usleep(rand() % 500);
-    LogRunnable::log(m_msg);
+    std::unique_ptr<LogPacket> packet 
+      = std::move(createSimplePacket("DEBUG",message[rand() % NUM_MESSAGES]));
+    LogRunnable::log(std::move(packet));
     m_mutex.unlock();
   }
 }

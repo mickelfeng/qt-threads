@@ -17,7 +17,6 @@ class SpamRunnable : public QRunnable
 
   private:
     QMutex m_mutex;
-    const char* m_msg;
 };
 
 #endif // SPAMRUNNABLE_H

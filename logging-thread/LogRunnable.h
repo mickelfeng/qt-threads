@@ -2,6 +2,7 @@
 #define LOGRUNNABLE_H
 
 #include <QRunnable>
+#include "LogPacket.h"
 
 /**
  *
@@ -13,7 +14,7 @@ class LogRunnable : public QRunnable
 
     static void create();
     static void destroy();
-    static void log(const char* msg);
+    static void log(std::unique_ptr<LogPacket>&& packet);
 
     static LogRunnable* getInstance();
 

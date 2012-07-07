@@ -21,10 +21,10 @@ void LogRunnable::create()
   }
 }
 
-void LogRunnable::log(const char* msg)
+void LogRunnable::log(std::unique_ptr<LogPacket>&& packet)
 {
   QMutexLocker locker(&mutex);
-  std::clog << msg << std::endl;
+  std::clog << packet->severity << ":" << packet->message << std::endl;
 }
 
 void LogRunnable::destroy()

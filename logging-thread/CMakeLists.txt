@@ -9,6 +9,7 @@ set(SRC
   Application.cpp
   LogRunnable.cpp
   SpamRunnable.cpp
+  LogPacket.cpp
 )
 
 set(HDR
