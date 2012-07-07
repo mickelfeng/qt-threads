@@ -1,50 +1,88 @@
 #include "LogRunnable.h"
 #include <QMutexLocker>
 #include <QMutex>
+#include <QDateTime>
 #include <iostream>
+
+namespace
+{
+  QMutex lock(QMutex::Recursive);
+}
 
 LogRunnable* LogRunnable::g_instance = 0;
 
-QMutex mutex;
-
 void LogRunnable::run()
 {
-  std::clog << "done.\n";
 }
 
 void LogRunnable::create()
 {
+  QMutexLocker locker(&lock);
   if (!g_instance)
   {
     g_instance = new LogRunnable;
-    std::clog << "LogRunnable created\n";
+    LOG_INFO("log start");
+  }
+}
+
+void LogRunnable::log(const QString& severity, const QString& message)
+{
+  QMutexLocker locker(&lock);
+  LogRunnable* instance = getInstance();
+  if (instance)
+  {
+    std::unique_ptr<LogPacket> packet(new LogPacket);
+    packet->severity = severity;
+    packet->message = message;
+    packet->timestamp = QDateTime::currentMSecsSinceEpoch();
+    instance->log(std::move(packet));
   }
 }
 
 void LogRunnable::log(std::unique_ptr<LogPacket>&& packet)
 {
-  QMutexLocker locker(&mutex);
-  std::clog << "[" << packet->timestamp<< "] " << packet->severity 
-  std::clog << ":" << packet->message << std::endl;
+  m_stream << "{";
+  m_stream << "timestamp:" << packet->timestamp << ", ";
+  m_stream << "severity:\"" << packet->severity << "\", ";
+  m_stream << "tags:[], ";
+  m_stream << "message:\"" << packet->message << "\"";
+  m_stream << "}";
+  endl(m_stream);
+  m_stream.flush();
 }
 
 void LogRunnable::destroy()
 {
+  QMutexLocker locker(&lock);
+  LOG_INFO("log end");
   delete g_instance;
   g_instance = 0;
-  std::clog << "LogRunnable destroyed\n";
 }
 
 LogRunnable* LogRunnable::getInstance()
 {
-  if (!g_instance)
-    create();
-
   return g_instance;
 }
 
-LogRunnable::LogRunnable() : QRunnable()
+LogRunnable::LogRunnable() 
+: QRunnable()
 {
   setAutoDelete(false);
+
+  QTextStream stream(new QString);
+
+  stream << "session_";
+  stream << QDateTime::currentDateTime().currentMSecsSinceEpoch();
+  stream << ".log";
+
+  m_logfile.setFileName(*stream.string());
+  m_logfile.open(QIODevice::WriteOnly);
+
+  m_stream.setDevice(&m_logfile);
+}
+
+LogRunnable::~LogRunnable()
+{
+  m_logfile.close();
 }
 

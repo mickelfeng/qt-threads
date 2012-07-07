@@ -2,8 +2,8 @@
 #include <QDateTime>
 
 std::unique_ptr<LogPacket> createSimplePacket(
-  const std::string& severity,
-  const std::string& message)
+  const QString& severity,
+  const QString& message)
 {
   std::unique_ptr<LogPacket> packet(new LogPacket);
   packet->severity = severity;
