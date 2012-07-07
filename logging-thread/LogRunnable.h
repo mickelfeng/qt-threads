@@ -25,5 +25,7 @@ class LogRunnable : public QRunnable
     static LogRunnable* g_instance;
 };
 
+#define LOG_DEBUG(msg) do {LogRunnable::log(createSimplePacket("DEBUG",(msg)));} while(0)
+
 #endif // LOGRUNNABLE_H
 

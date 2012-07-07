@@ -18,9 +18,7 @@ void SpamRunnable::run()
 {
   while (m_mutex.tryLock())
   {
-    std::unique_ptr<LogPacket> packet 
-      = std::move(createSimplePacket("DEBUG",message[rand() % NUM_MESSAGES]));
-    LogRunnable::log(std::move(packet));
+    LOG_DEBUG(message[rand() % NUM_MESSAGES]);
     m_mutex.unlock();
   }
 }
