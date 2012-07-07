@@ -10,6 +10,7 @@ struct LogPacket
   std::string severity;
   std::vector<std::string> tags;
   std::string message;
+  long long int timestamp;
 };
 
 std::unique_ptr<LogPacket> createSimplePacket(const std::string& severity,

@@ -24,7 +24,8 @@ void LogRunnable::create()
 void LogRunnable::log(std::unique_ptr<LogPacket>&& packet)
 {
   QMutexLocker locker(&mutex);
-  std::clog << packet->severity << ":" << packet->message << std::endl;
+  std::clog << "[" << packet->timestamp<< "] " << packet->severity 
+  std::clog << ":" << packet->message << std::endl;
 }
 
 void LogRunnable::destroy()
