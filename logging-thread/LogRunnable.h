@@ -6,6 +6,36 @@
 #include <QTextStream>
 #include "LogPacket.h"
 
+enum LogTag
+{
+  THREAD  = 1 << 0,
+  GUI     = 1 << 1
+};
+
+Q_DECLARE_FLAGS(LogTags, LogTag);
+Q_DECLARE_OPERATORS_FOR_FLAGS(LogTags);
+
+enum LogLevel
+{
+  DEBUG     = 1 << 0,
+  INFO      = 1 << 1,
+  WARN      = 1 << 2,
+  ERROR     = 1 << 3,
+  CRITICAL  = 1 << 4
+};
+
+
+class LogStream
+{
+  public:
+    LogStream& operator<< (const QString& str);
+    LogStream& operator() (LogLevel level, LogTags tags);
+
+  private:
+    LogLevel m_level;
+    LogTags m_tags;
+};
+
 /**
  *
  */

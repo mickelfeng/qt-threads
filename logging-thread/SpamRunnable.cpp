@@ -18,7 +18,8 @@ void SpamRunnable::run()
 {
   while (m_mutex.tryLock())
   {
-    LOG_DEBUG(message[rand() % NUM_MESSAGES]);
+    LogStream log;
+    log(WARN, THREAD) << message[rand() % NUM_MESSAGES];
     m_mutex.unlock();
   }
 }

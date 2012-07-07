@@ -86,3 +86,23 @@ LogRunnable::~LogRunnable()
   m_logfile.close();
 }
 
+LogStream& LogStream::operator<< (const QString& str)
+{
+  switch (m_level)
+  {
+    case DEBUG:     LogRunnable::log("DEBUG", str);     break;
+    case INFO:      LogRunnable::log("INFO", str);      break;
+    case WARN:      LogRunnable::log("WARN", str);      break;
+    case ERROR:     LogRunnable::log("ERROR", str);     break;
+    case CRITICAL:  LogRunnable::log("CRITICAL", str);  break;
+  }
+  return *this;
+}
+
+LogStream& LogStream::operator() (LogLevel level, LogTags tags)
+{
+  m_level = level;
+  m_tags = tags;
+  return *this;
+}
+
