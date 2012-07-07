@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <vector>
 #include <memory>
+#include "SpamRunnable.h"
 
 /**
  *
@@ -17,6 +18,9 @@ class Application : public QApplication
 
   public slots:
     void timeout();
+
+  private:
+    std::vector<SpamRunnable*> m_threads;
 };
 
 #endif // APPLICATION_H

@@ -13,6 +13,7 @@ class LogRunnable : public QRunnable
 
     static void create();
     static void destroy();
+    static void log(const char* msg);
 
     static LogRunnable* getInstance();
 

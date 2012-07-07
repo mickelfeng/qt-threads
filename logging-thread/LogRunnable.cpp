@@ -1,7 +1,11 @@
 #include "LogRunnable.h"
+#include <QMutexLocker>
+#include <QMutex>
 #include <iostream>
 
 LogRunnable* LogRunnable::g_instance = 0;
+
+QMutex mutex;
 
 void LogRunnable::run()
 {
@@ -15,6 +19,12 @@ void LogRunnable::create()
     g_instance = new LogRunnable;
     std::clog << "LogRunnable created\n";
   }
+}
+
+void LogRunnable::log(const char* msg)
+{
+  QMutexLocker locker(&mutex);
+  std::clog << msg << std::endl;
 }
 
 void LogRunnable::destroy()
