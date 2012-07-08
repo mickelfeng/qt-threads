@@ -2,13 +2,14 @@
 #define LOGPACKET_H
 
 #include <QString>
+#include <QStringList>
 #include <vector>
 #include <memory>
 
 struct LogPacket
 {
   QString severity;
-  std::vector<QString> tags;
+  QStringList tags;
   QString message;
   long long int timestamp;
 };
