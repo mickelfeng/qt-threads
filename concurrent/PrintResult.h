@@ -12,6 +12,9 @@ class PrintResult : public QFutureWatcher<int>
 
   public slots:
     void report();
+
+  signals:
+    void sum(int);
 };
 
 #endif // PRINTRESULT_H

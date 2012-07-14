@@ -13,7 +13,7 @@ class Processor : public QObject
 
   public:
     Processor(QObject* parent = 0);
-    int process(const std::vector<int>& data) const;
+    int process(int* start, int n) const;
 };
 
 #endif // PROCESSOR_H

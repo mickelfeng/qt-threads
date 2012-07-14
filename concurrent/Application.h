@@ -15,6 +15,10 @@ class Application : public QApplication
 
   public slots:
     void timeout();
+    void accumulate(int);
+
+  private:
+    int m_sum;
 };
 
 #endif // APPLICATION_H

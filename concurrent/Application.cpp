@@ -11,18 +11,22 @@
 #include "Processor.h"
 
 Application::Application(int argc, char** argv)
-: QApplication(argc, argv)
+: QApplication(argc, argv), m_sum(0)
 {
-  std::vector<int> data(100);
-  for (size_t i = 1; i < data.size(); ++i)
+  int* data = new int[100];
+  for (int i = 0; i < 100; ++i)
   {
     data[i] = i;
   }
 
-  PrintResult* result = new PrintResult(this);
-  Processor* processor = new Processor(this);
+  PrintResult* resultA = new PrintResult(this);
+  PrintResult* resultB = new PrintResult(this);
 
-  result->setFuture(QtConcurrent::run(boost::bind(&Processor::process, processor, data)));
+  connect(resultA, SIGNAL(sum(int)), this, SLOT(accumulate(int)));
+  connect(resultB, SIGNAL(sum(int)), this, SLOT(accumulate(int)));
+
+  resultA->setFuture(QtConcurrent::run(boost::bind(&Processor::process, new Processor(this), data, 50)));
+  resultB->setFuture(QtConcurrent::run(boost::bind(&Processor::process, new Processor(this), data + 50, 50)));
 
   std::cout << "sup\n";
 
@@ -36,6 +40,12 @@ Application::Application(int argc, char** argv)
 void Application::timeout()
 {
   QThreadPool::globalInstance()->waitForDone();
+  std::cout << m_sum << std::endl;
   qApp->quit();
+}
+
+void Application::accumulate(int sum)
+{
+  m_sum += sum;
 }
 

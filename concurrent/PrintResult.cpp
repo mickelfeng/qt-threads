@@ -9,6 +9,6 @@ PrintResult::PrintResult(QObject* parent)
 
 void PrintResult::report()
 {
-  std::cout << result() << std::endl;
+  emit sum(result());
 }
 
